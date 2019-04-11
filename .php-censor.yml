@@ -1,0 +1,53 @@
+setup:
+  composer:
+    action: "install"
+    prefer_dist: true
+test:
+  php_unit:
+    allow_failures: true
+    config:
+      - "phpunit.xml.dist"
+    coverage: true
+  php_mess_detector:
+    allow_failures: true
+    directory: "src"
+    ignore:
+      - "src/Migrations"
+    rules:
+      - "cleancode"
+      - "controversial"
+      - "codesize"
+      - "unusedcode"
+  php_cpd:
+    allow_failures: true
+    ignore:
+      - "vendor"
+      - "var/cache"
+  php_loc:
+    allow_failures: true
+    directory: "src"
+  php_parallel_lint:
+    allow_failures: true
+    ignore:
+      - "vendor"
+      - "var"
+  technical_debt:
+    allow_failures: true
+    ignore:
+      - "vendor"
+  php_code_sniffer:
+    directory: "src"
+    ignore:
+      - "src/Migrations"
+    standard: "PSR2"
+    allow_failures: true
+  phpstan:
+    directory: "src"
+    allow_failures: true
+  pdepend:
+    directory: "src"
+    allow_failures: true
+  psalm:
+    directory: "src"
+    allow_failures: true
+  security_checker:
