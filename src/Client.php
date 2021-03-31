@@ -52,6 +52,37 @@ class Client
      * @return array
      * @throws GuzzleException
      */
+    public function findBranchesWithValidApproval(string $projectKey, string $repositorySlug, int $page = 0): array
+    {
+        $endpoint = sprintf('/projects/%s/repos/%s/pull-requests?start=%d', $projectKey, $repositorySlug, $page * 25);
+        $response = $this->request($endpoint)->getBody();
+        $response = json_decode($response, true);
+        $branchNames = [];
+        foreach ($response['values'] as $pullRequest) {
+            $approvals = [];
+            foreach ($pullRequest['reviewers'] as $reviewer) {
+                if ($reviewer['status'] == 'APPROVED') {
+                    $approvals[] = $reviewer['user']['name'];
+                }
+            }
+
+            if (empty($approvals)) {
+                continue;
+            }
+
+            $branchNames[$pullRequest['fromRef']['displayId']] = (string)$pullRequest['author']['user']['name'];
+        }
+
+        return $branchNames;
+    }
+    
+    /**
+     * @param string $projectKey
+     * @param string $repositorySlug
+     * @param array $userWhiteList
+     * @return array
+     * @throws GuzzleException
+     */
     public function findBranchesWithOpenPullRequests(string $projectKey, string $repositorySlug, array $userWhiteList = []): array
     {
         $endpoint = sprintf('/projects/%s/repos/%s/pull-requests', $projectKey, $repositorySlug);
