@@ -75,7 +75,7 @@ class Client
 
         return $branchNames;
     }
-    
+
     /**
      * @param string $projectKey
      * @param string $repositorySlug

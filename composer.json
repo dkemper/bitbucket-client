@@ -15,7 +15,7 @@
   },
   "require": {
     "php": ">=7.2.0",
-    "guzzlehttp/guzzle": "^6.3"
+    "guzzlehttp/guzzle": "^7.3"
   },
   "require-dev": {
     "phan/phan": "^1.2",
